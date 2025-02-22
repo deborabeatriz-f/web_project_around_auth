@@ -1,4 +1,5 @@
 const InfoTooltip = ({ icon, text, onClose }) => {
+  console.log(icon, text);
   return (
     <div className="popup__container">
       <div className={`popup__card`}>
