@@ -9,8 +9,12 @@ import ProtectedRoute from "./ProtectedRoute/index.jsx";
 import Login from "./Sign/Login.jsx";
 import Register from "./Sign/Register.jsx";
 import InfoTooltip from "./InfoTooltip/index.jsx";
+import { setToken, getToken } from "../utils/token.js";
+import { getUserAuth } from "../utils/Api.js";
 import * as auth from "../utils/auth.js";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import successIcon from "../images/auth-icon.svg";
+import failIcon from "../images/no_auth-icon.svg";
 
 function App() {
   const navigate = useNavigate();
@@ -29,6 +33,21 @@ function App() {
   const [popup, setPopup] = useState(null);
 
   const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    const jwt = getToken();
+
+    if (!jwt) {
+      return;
+    }
+
+    getUserAuth(jwt).then((response) => {
+      const email = { email: response.data.email };
+      setCurrentUser((prevData) => ({ ...prevData, ...email }));
+      setIsLoggedIn(true);
+      navigate("/");
+    });
+  }, [navigate]);
 
   useEffect(() => {
     api
@@ -58,17 +77,16 @@ function App() {
       .then(() => {
         navigate("/");
         setIsLoggedIn(true);
+        setToken(response.token);
         setInfoTooltipData({
-          // olhar no figma a mensagem e icone correto
-          text: "Deu certo no login",
-          icon: "successIcon",
+          text: "Vitória! Você precisa se registrar.",
+          icon: successIcon,
         });
       })
       .catch((error) => {
         setInfoTooltipData({
-          // olhar no figma a mensagem e icone correto
-          text: "Deu ruim",
-          icon: "failIcon",
+          text: "Ops, algo deu errado! Por favor, tente novamente.",
+          icon: failIcon,
         });
         console.error(error);
       })
@@ -83,16 +101,14 @@ function App() {
       .then(() => {
         navigate("/login");
         setInfoTooltipData({
-          // olhar no figma a mensagem e icone correto
-          text: "Deu certo no registro",
-          icon: "successIcon",
+          text: "Vitória! Você precisa se registrar.",
+          icon: successIcon,
         });
       })
       .catch((error) => {
         setInfoTooltipData({
-          // olhar no figma a mensagem e icone correto
-          text: "Deu ruim",
-          icon: "failIcon",
+          text: "Ops, algo deu errado! Por favor, tente novamente.",
+          icon: failIcon,
         });
         console.error(error);
       })
@@ -173,7 +189,12 @@ function App() {
     <div className="page">
       <CardsContext.Provider value={handleAddPlaceSubmit}>
         <CurrentUserContext.Provider
-          value={{ currentUser, handleUpdateUser, handleUpdateAvatar }}
+          value={{
+            currentUser,
+            handleUpdateUser,
+            handleUpdateAvatar,
+            isLoggedIn,
+          }}
         >
           <Routes>
             <Route
