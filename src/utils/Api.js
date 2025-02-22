@@ -1,3 +1,5 @@
+import { BASE_URL } from "./auth";
+
 class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
@@ -109,6 +111,22 @@ class Api {
     });
   }
 }
+
+// const BASE_URL = "https://se-register-api.en.tripleten-services.com/v1";
+
+export const getUserAuth = (token) => {
+  return fetch(`${BASE_URL}/user/me`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "Content-Security-Policy": "default-src 'self' *.tripleten-service.com",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => {
+    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+  });
+};
 
 const api = new Api({
   baseUrl: "https://around-api.pt-br.tripleten-services.com/v1",
