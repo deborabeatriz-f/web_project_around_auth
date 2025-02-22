@@ -112,10 +112,10 @@ class Api {
   }
 }
 
-// const BASE_URL = "https://se-register-api.en.tripleten-services.com/v1";
+const API_URL = "https://se-register-api.en.tripleten-services.com/v1";
 
 export const getUserAuth = (token) => {
-  return fetch(`${BASE_URL}/user/me`, {
+  return fetch(`${API_URL}/user/me`, {
     method: "GET",
     headers: {
       Accept: "application/json",
