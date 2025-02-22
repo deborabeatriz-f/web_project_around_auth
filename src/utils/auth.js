@@ -1,4 +1,4 @@
-// export const BASE_URL = "https://api.nomoreparties.co";
+export const BASE_URL = "https://se-register-api.en.tripleten-services.com/v1";
 
 export const signin = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
@@ -6,6 +6,7 @@ export const signin = (email, password) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      "Content-Security-Policy": "default-src 'self' *.tripleten-service.com",
     },
     body: JSON.stringify({ email, password }),
   }).then((res) => {
@@ -13,13 +14,13 @@ export const signin = (email, password) => {
   });
 };
 
-
 export const signup = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      "Content-Security-Policy": "default-src 'self' *.tripleten-service.com",
     },
     body: JSON.stringify({ email, password }),
   }).then((res) => {
