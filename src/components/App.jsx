@@ -201,7 +201,7 @@ function App() {
               path="/login"
               element={
                 <>
-                  <Header />
+                  <Header text="Entrar" />
                   <Login handleLogin={handleLogin} isLoggedIn={isLoggedIn} />
                 </>
               }
@@ -210,7 +210,7 @@ function App() {
               path="/register"
               element={
                 <>
-                  <Header />
+                  <Header text="Inscreva-se" />
                   <Register
                     handleRegistration={handleRegistration}
                     isLoggedIn={isLoggedIn}
@@ -222,7 +222,7 @@ function App() {
               path="/"
               element={
                 <ProtectedRoute isLoggedIn={isLoggedIn}>
-                  <Header currentUser={currentUser} />
+                  <Header />
                   <Main
                     handleOpenPopup={handleOpenPopup}
                     handleClosePopup={handleClosePopup}
@@ -250,23 +250,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* <!-- POPUP DELETE CARD --> */
-}
-{
-  /* <div className="popup__container popup__container-deleteCard">
-        <div className="popup__card">
-          <h3 className="popup__title">Tem certeza?</h3>
-          <form className="popup__input input-deleteCard" noValidate>
-            <button type="submit" className="input__submit input__submit-delete">
-              Sim
-            </button>
-          </form>
-          <button
-            className="popup__button-close button-closeDelete"
-            draggable="true"
-          ></button>
-        </div>
-      </div> */
-}
