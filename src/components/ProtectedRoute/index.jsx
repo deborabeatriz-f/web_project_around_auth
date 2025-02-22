@@ -1,18 +1,10 @@
-// import { Route, Redirect } from "react-router-dom";
-
-// function ProtectedRoute({ isLoggedIn, children, ...props }) {
-//   return (
-//     <Route {...props}>
-//       { isLoggedIn ? children : <Redirect to="/login" /> }
-//     </Route>
-//   )
-// }
-
-// export default ProtectedRoute;
-
 import { Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function ProtectedRoute({ isLoggedIn, children }) {
+function ProtectedRoute({ children }) {
+  const { isLoggedIn } = useContext(CurrentUserContext);
+
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
