@@ -8,12 +8,23 @@ import { CardsContext } from "../contexts/CardsContext.js";
 import ProtectedRoute from "./ProtectedRoute/index.jsx";
 import Login from "./Sign/Login.jsx";
 import Register from "./Sign/Register.jsx";
-import { Route, Switch } from "react-router-dom";
+import InfoTooltip from "./InfoTooltip/index.jsx";
+import * as auth from "../utils/auth.js";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 function App() {
+  const navigate = useNavigate();
+
   const [currentUser, setCurrentUser] = useState({});
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+
+  const [infoTooltipData, setInfoTooltipData] = useState({
+    text: "",
+    icon: null,
+  });
 
   const [popup, setPopup] = useState(null);
 
@@ -40,6 +51,55 @@ function App() {
         console.error(err);
       });
   }, []);
+
+  const handleLogin = ({ email, password }) => {
+    auth
+      .signin(email, password)
+      .then(() => {
+        navigate("/");
+        setIsLoggedIn(true);
+        setInfoTooltipData({
+          // olhar no figma a mensagem e icone correto
+          text: "Deu certo no login",
+          icon: "successIcon",
+        });
+      })
+      .catch((error) => {
+        setInfoTooltipData({
+          // olhar no figma a mensagem e icone correto
+          text: "Deu ruim",
+          icon: "failIcon",
+        });
+        console.error(error);
+      })
+      .finally(() => {
+        setIsInfoTooltipOpen(true);
+      });
+  };
+
+  const handleRegistration = ({ email, password }) => {
+    auth
+      .signup(email, password)
+      .then(() => {
+        navigate("/login");
+        setInfoTooltipData({
+          // olhar no figma a mensagem e icone correto
+          text: "Deu certo no registro",
+          icon: "successIcon",
+        });
+      })
+      .catch((error) => {
+        setInfoTooltipData({
+          // olhar no figma a mensagem e icone correto
+          text: "Deu ruim",
+          icon: "failIcon",
+        });
+        console.error(error);
+      })
+      .finally(() => {
+        setIsInfoTooltipOpen(true);
+      });
+  };
 
   const handleUpdateUser = (data) => {
     (async () => {
@@ -105,32 +165,63 @@ function App() {
     setPopup(null);
   }
 
+  function handleCloseInfoTooltip() {
+    setIsInfoTooltipOpen(false);
+  }
+
   return (
     <div className="page">
       <CardsContext.Provider value={handleAddPlaceSubmit}>
         <CurrentUserContext.Provider
           value={{ currentUser, handleUpdateUser, handleUpdateAvatar }}
         >
-          <Switch>
-            <Route path="/login">
-              <Login handleLogin={handleLogin} isLoggedIn={isLoggedIn} />
-            </Route>
-            <Route path="/register">
-              <Register handleRegister={handleRegister} isLoggedIn={isLoggedIn} />
-            </Route>
-            <ProtectedRoute exact path="/" isLoggedIn={isLoggedIn}>
-              <Header />
-              <Main
-                handleOpenPopup={handleOpenPopup}
-                handleClosePopup={handleClosePopup}
-                popup={popup}
-                handleCardLike={handleCardLike}
-                handleCardDelete={handleCardDelete}
-                cards={cards}
-              />
-              <Footer />
-            </ProtectedRoute>
-          </Switch>
+          <Routes>
+            <Route
+              path="/login"
+              element={
+                <>
+                  <Header />
+                  <Login handleLogin={handleLogin} isLoggedIn={isLoggedIn} />
+                </>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <>
+                  <Header />
+                  <Register
+                    handleRegistration={handleRegistration}
+                    isLoggedIn={isLoggedIn}
+                  />
+                </>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Header currentUser={currentUser} />
+                  <Main
+                    handleOpenPopup={handleOpenPopup}
+                    handleClosePopup={handleClosePopup}
+                    popup={popup}
+                    handleCardLike={handleCardLike}
+                    handleCardDelete={handleCardDelete}
+                    cards={cards}
+                  />
+                  <Footer />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+          {isInfoTooltipOpen ? (
+            <InfoTooltip
+              onClose={handleCloseInfoTooltip}
+              icon={infoTooltipData.icon}
+              text={infoTooltipData.text}
+            />
+          ) : null}
         </CurrentUserContext.Provider>
       </CardsContext.Provider>
     </div>
