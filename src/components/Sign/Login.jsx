@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import "../blocks/sign.css";
+import "../../blocks/sign.css";
 
-const Login = () => {
+const Login = ({ handleLogin }) => {
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -16,10 +16,15 @@ const Login = () => {
     }));
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleLogin(data);
+  };
+
   return (
     <div className="sign">
       <p className="sign__welcome">Entrar</p>
-      <form className="sign__form">
+      <form className="sign__form" onSubmit={handleSubmit}>
         <input
           id="email"
           name="email"
@@ -42,7 +47,7 @@ const Login = () => {
       </form>
       <div className="sign__signin">
         <p>Ainda não é um membro?</p>
-        <Link to="login" className="sign__login-link">
+        <Link to="/register" className="sign__login-link">
           Inscreva-se aqui!
         </Link>
       </div>
