@@ -22,7 +22,12 @@ export default function Header({ text }) {
           <button onClick={handleLogOut}>Sair</button>{" "}
         </div>
       ) : (
-        <a href={text === "Entrar" ? "/login" : "/register"}>{text}</a>
+        <a
+          className="header__link"
+          href={text === "Entrar" ? "/login" : "/register"}
+        >
+          {text}
+        </a>
       )}
     </header>
   );
