@@ -19,25 +19,29 @@ const Register = ({ handleRegistration }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     handleRegistration(data);
-  }
+  };
 
   return (
     <div className="sign">
       <p className="sign__welcome">Inscrever-se</p>
-      <form className="sign__form" onSubmit={handleSubmit}>     
+      <form className="sign__form" onSubmit={handleSubmit}>
         <input
+          className="sign__email"
           id="email"
           name="email"
           type="email"
           value={data.email}
           onChange={handleChange}
+          placeholder="E-mail"
         />
         <input
+          className="sign__password"
           id="password"
           name="password"
           type="password"
           value={data.password}
           onChange={handleChange}
+          placeholder="Senha"
         />
         <div className="sign__button-container">
           <button type="submit" className="sign__link">
