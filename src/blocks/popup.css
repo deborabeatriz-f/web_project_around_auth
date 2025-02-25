@@ -8,10 +8,6 @@
   z-index: 3;
 }
 
-.popup__opened {
-  display: block;
-}
-
 .popup__card {
   background: rgba(255, 255, 255, 1);
   max-width: 430px;
@@ -33,6 +29,18 @@
   100% {
     top: 50%;
   }
+}
+
+.popup__cardInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 36px;
+}
+
+.popup__info {
+  color: #000;
+  text-align: center;
 }
 
 .popup__button-close {
