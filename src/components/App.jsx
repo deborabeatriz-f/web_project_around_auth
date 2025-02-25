@@ -75,7 +75,6 @@ function App() {
     auth
       .signin(email, password)
       .then((response) => {
-        console.log("Oi");
         navigate("/");
         setIsLoggedIn(true);
         setToken(response.token);
@@ -85,7 +84,6 @@ function App() {
         });
       })
       .catch((error) => {
-        console.log("Oie 2");
         setInfoTooltipData({
           text: "Ops, algo deu errado! Por favor, tente novamente.",
           icon: failIcon,
