@@ -115,7 +115,7 @@ class Api {
 const API_URL = "https://se-register-api.en.tripleten-services.com/v1";
 
 export const getUserAuth = (token) => {
-  return fetch(`${API_URL}/user/me`, {
+  return fetch(`${API_URL}/users/me`, {
     method: "GET",
     headers: {
       Accept: "application/json",
