@@ -26,18 +26,22 @@ const Login = ({ handleLogin }) => {
       <p className="sign__welcome">Entrar</p>
       <form className="sign__form" onSubmit={handleSubmit}>
         <input
+          className="sign__email"
           id="email"
           name="email"
           type="email"
           value={data.email}
           onChange={handleChange}
+          placeholder="E-mail"
         />
         <input
+          className="sign__password"
           id="password"
           name="password"
           type="password"
           value={data.password}
           onChange={handleChange}
+          placeholder="Senha"
         />
         <div className="sign__button-container">
           <button type="submit" className="sign__link">
@@ -46,10 +50,12 @@ const Login = ({ handleLogin }) => {
         </div>
       </form>
       <div className="sign__signin">
-        <p>Ainda não é um membro?</p>
-        <Link to="/register" className="sign__login-link">
-          Inscreva-se aqui!
-        </Link>
+        <span>
+          Ainda não é um membro?{" "}
+          <Link to="/register" className="sign__login-link">
+            Inscreva-se aqui!
+          </Link>
+        </span>
       </div>
     </div>
   );
