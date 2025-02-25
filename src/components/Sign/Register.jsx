@@ -50,10 +50,12 @@ const Register = ({ handleRegistration }) => {
         </div>
       </form>
       <div className="sign__signin">
-        <p>Já é um membro?</p>
-        <Link to="/login" className="sign__login-link">
-          Faça o login aqui!
-        </Link>
+        <span>
+          Já é um membro?{" "}
+          <Link to="/login" className="sign__login-link">
+            Faça o login aqui!
+          </Link>
+        </span>
       </div>
     </div>
   );
