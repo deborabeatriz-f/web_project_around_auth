@@ -40,6 +40,10 @@
   margin-top: 216px;
 }
 
+.sign__link {
+  padding: 14px 35px;
+}
+
 .sign__signin {
   color: rgba(204, 204, 204, 1);
   text-decoration: none;
